@@ -53,6 +53,7 @@ export const createSpy = (fn, restore = noop) => {
     spy = new Function('spy', `return function(${ // eslint-disable-line no-new-func
       [ ...Array(fn.length) ].map((_, i) => `_${i}`).join(',')
     }) {
+      "use strict";
       return spy.apply(this, arguments)
     }`)(spyLogic)
   }
