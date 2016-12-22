@@ -110,3 +110,27 @@ export const spyOn = (object, methodName) => {
 
   return object[methodName]
 }
+
+export const spyOnRewired = (rewiredModule, dependencyName) => {
+  const original = rewiredModule.__get__(dependencyName)
+
+  if (!isSpy(original)) {
+    assert(
+      isFunction(original),
+      'Cannot spyOnRewired the %s dependency; it is not a function',
+      dependencyName
+    )
+
+    let unrewire
+
+    let spy = createSpy(original, () => {
+      unrewire()
+    })
+
+    unrewire = rewiredModule.__set__(dependencyName, spy)
+
+    return spy
+  }
+
+  return original
+}

@@ -420,6 +420,36 @@ video.play()
 spy.restore()
 ```
 
+### spyOnRewired
+
+If you happen to be using babel, and have the [babel-rewire-plugin](https://github.com/speedskater/babel-plugin-rewire)
+installed, you can use spyOnRewired yo spy on functions within a rewired module.
+
+> `expect.spyOnRewired(rewiredModule, method)`
+
+Replaces/rewires the `method` in `rewiredModule` with a spy.
+
+```js
+// foo.js example
+export function barCalledByFoo(a, b) {
+  return "bar " + a + " " + b
+}
+
+export function foo(a, b) {
+  return "foo" + barCalledByFoo(a, b)
+}
+
+// foo-mocha-test.js example
+import { foo, barCalledByFoo, __RewireAPI__ as rewiredModule } from './foo'
+
+var spy = expect.spyOnRewired(rewiredModule, 'barCalledByFoo')
+foo('it', 'works');
+expect(spy.calls.length).toEqual(1)
+expect(spy.calls[0].arguments).toEqual([ 'it', 'works' ])
+
+spy.restore()
+```
+
 ### restoreSpies
 
 > `expect.restoreSpies()`
