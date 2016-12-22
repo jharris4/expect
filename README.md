@@ -423,7 +423,7 @@ spy.restore()
 ### spyOnRewired
 
 If you happen to be using babel, and have the [babel-rewire-plugin](https://github.com/speedskater/babel-plugin-rewire)
-installed, you can use spyOnRewired yo spy on functions within a rewired module.
+installed, you can use spyOnRewired to spy on top-level functions within a rewired module.
 
 > `expect.spyOnRewired(rewiredModule, method)`
 
